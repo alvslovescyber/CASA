@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'">
+    <title>CASA Security Tester</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="titlebar"></div>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <div class="logo-text">
+                        <div class="main-text">CASA</div>
+                        <div class="sub-text">Cloud Application<br>Security Assessment</div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Main Menu</div>
+                <button class="nav-button active" data-view="dashboard">
+                    <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-button" data-view="history">
+                    <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor" d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                    </svg>
+                    <span>History</span>
+                </button>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Security Tools</div>
+                <button class="nav-button" data-view="script-analysis">
+                    <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM8 20H4v-4h4v4zm0-6H4v-4h4v4zm0-6H4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4z"/>
+                    </svg>
+                    <span>Script Analysis</span>
+                </button>
+            </nav>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Settings</div>
+                <div class="theme-toggle">
+                    <span class="theme-label">Dark Mode</span>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view active">
+                <!-- URL Input Section -->
+                <div class="url-input-section card">
+                    <h3>Target Website</h3>
+                    <div class="url-input-container">
+                        <div class="input-group">
+                            <input type="url" id="targetUrl" placeholder="https://example.com" 
+                                   class="url-input" required
+                                   pattern="^https?:\/\/.*">
+                            <div class="input-buttons">
+                                <button class="button secondary" id="clearUrl">
+                                    <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                                    </svg>
+                                </button>
+                                <button class="button primary" id="startScan">
+                                    <span class="button-content">
+                                        <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                                            <path fill="currentColor" d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                                        </svg>
+                                        Start Scan
+                                    </span>
+                                    <div class="spinner hidden"></div>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="urlValidation" class="validation-message"></div>
+                    </div>
+                </div>
+
+                <div class="status-card card">
+                    <h3>Status</h3>
+                    <div id="status" class="status-text">Ready to run security checks...</div>
+                </div>
+
+                <div class="output-container card">
+                    <div class="output-header">
+                        <h3>Test Results</h3>
+                        <div class="output-controls">
+                            <button class="button secondary" id="clearConsole">
+                                <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                                    <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                                </svg>
+                                Clear
+                            </button>
+                            <button class="button secondary" id="saveResults">
+                                <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                                    <path fill="currentColor" d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                                </svg>
+                                Save
+                            </button>
+                            <button class="button secondary small" id="copyOutput">
+                                <svg class="icon" viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-content">
+                        <pre id="output"></pre>
+                    </div>
+                </div>
+
+                <div class="results-section">
+                    <!-- Remove the example result card -->
+                </div>
+            </div>
+
+            <!-- History View -->
+            <div id="history-view" class="view">
+                <div class="controls">
+                    <button class="button primary" id="refreshHistory">
+                        <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                            <path fill="currentColor" d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                        </svg>
+                        Refresh History
+                    </button>
+                </div>
+                <div id="history-container" class="history-container">
+                    <!-- History items will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Script Analysis View -->
+            <div id="script-analysis-view" class="view">
+                <div class="controls">
+                    <button class="button primary" id="runAnalysis">
+                        <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
+                            <path fill="currentColor" d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                        </svg>
+                        Run Analysis
+                    </button>
+                </div>
+                <div class="script-analysis-container">
+                    <div id="analysis-results" class="results-section">
+                        <!-- Analysis results will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

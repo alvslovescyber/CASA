@@ -1,0 +1,1 @@
+const cmd = "curl -s https://dev.example.com | grep -i 'apache\\|nginx\\|iis\\|tomcat\\|php\\|asp\\.net'"; 

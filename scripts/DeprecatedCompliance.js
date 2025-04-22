@@ -1,0 +1,1 @@
+const cmd = "curl -s https://dev.example.com | grep -i 'compliance\\|regulation\\|audit\\|certification\\|standard\\|requirement'"; 

@@ -1,0 +1,59 @@
+{
+  "name": "casa-security-checker",
+  "productName": "CASA Security Checker",
+  "version": "1.0.0",
+  "description": "A comprehensive security assessment tool for web applications",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-icons": "node scripts/generate-icons.js",
+    "build": "npm run generate-icons && electron-builder build"
+  },
+  "keywords": [
+    "security",
+    "casa",
+    "node"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "chalk": "^4.1.2",
+    "dotenv": "^16.4.5",
+    "electron": "^29.1.0",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.9.1",
+    "sharp": "^0.32.6"
+  },
+  "build": {
+    "appId": "com.casa.security.checker",
+    "productName": "CASA Security Checker",
+    "directories": {
+      "buildResources": "build"
+    },
+    "mac": {
+      "icon": "build/icon.icns",
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "icon": "build/icons/png",
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "category": "Development"
+    }
+  }
+}

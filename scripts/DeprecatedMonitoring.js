@@ -1,0 +1,1 @@
+const cmd = "curl -s https://dev.example.com | grep -i 'monitoring\\|metrics\\|prometheus\\|grafana\\|alerting\\|dashboard'"; 

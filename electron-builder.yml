@@ -1,0 +1,40 @@
+appId: com.casa.security.checker
+productName: "CASA Security Checker"
+directories:
+  output: dist
+  buildResources: build
+files:
+  - "**/*"
+  - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+mac:
+  category: public.app-category.developer-tools
+  icon: build/icon.icns
+  target:
+    - target: dmg
+    - target: zip
+  darkModeSupport: true
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+dmg:
+  sign: false
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: "link"
+      path: "/Applications"
+win:
+  target:
+    - target: nsis
+    - target: portable
+  icon: build/icon.ico
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  category: Development 

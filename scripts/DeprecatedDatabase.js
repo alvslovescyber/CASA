@@ -1,0 +1,1 @@
+const cmd = "curl -s https://dev.example.com | grep -i 'mysql\\|postgresql\\|mongodb\\|oracle\\|sql\\|server'"; 
